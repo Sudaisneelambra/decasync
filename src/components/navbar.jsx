@@ -41,7 +41,6 @@ const NavBar = () => {
        <nav className={`${style.main} w-full h-[90px] bg-[#1d1a22] relative`}>
             <div className={`${style.one} flex justify-center items-center`}>
                 <img src={logo} alt=""  className={`${style['img-one']} h-[80%]`}  onClick={() => navigate('/')} />
-                {/* <img src={text} alt="" className={`${style['img-two']}`} /> */}
                 <h1 className={`text-[white] font-bold pl-2 text-[24px]`}  onClick={() => navigate('/')} >DECSYNC</h1>
             </div>
             <div className={`${style.two}  flex justify-center items-center font-[800] gap-4 pl-[50px] `}>
@@ -50,7 +49,7 @@ const NavBar = () => {
             </div>
             <div className={`${style.three} flex justify-center items-center gap-3`}>
                 <div className={style.btn}>
-                    <Button onClick={() => navigate('/four')} buttonValue={'Show Purchase'} />
+                    <Button onClick={() => navigate('/purchase')} buttonValue={'Purchase order'} />
                 </div>
                 {!isSideNavOpen && (
                     <img src={menu} alt="Menu Icon" className="h-[30px]" onClick={openSideMedu} />
@@ -63,7 +62,7 @@ const NavBar = () => {
             <h1 className={`${style['menu-h1']} mt-3 text-[white]`} onClick={() => navigate('/supplier')} >USER WALLET</h1>
             <h1 className={`${style['menu-h1']} text-[#d1bcff]`} onClick={() => navigate('/items')} >PRIVATE SALE - BUY</h1>
             <div className={`${style['side-button']} hidden`}>
-                <Button onClick={() => navigate('/four')} buttonValue={'Show Purchase'} />
+                <Button onClick={() => navigate('/purchase')} buttonValue={'Purchase order'} />
             </div>
         </div>
        </nav>

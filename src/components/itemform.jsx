@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import commonaxios from '../axios/axiosinstance';
 import { useNavigate } from 'react-router-dom';
+import { MyContext } from '../context/context';
 
-const ItemForm = ()=>{
-    
+const ItemForm = () => {
 
-    const navigate= useNavigate()
-    const [suppliers,setSuppliers]= useState([])
-    const [itemCount,setItemCount]= useState()
-
-
+    /**states */
+    const navigate = useNavigate();
+    const [suppliers, setSuppliers] = useState([]);
+    const [itemCount, setItemCount] = useState();
+    const { setLoadingValue } = useContext(MyContext);
     const [formData, setFormData] = useState({
         itemName: '',
         inventoryLocation: '',
@@ -45,78 +45,70 @@ const ItemForm = ()=>{
     /**handle submit */
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const data = new FormData()
+        const data = new FormData();
 
-        Object.keys(formData).forEach(key => {
+        Object.keys(formData).forEach((key) => {
             if (key !== 'itemImages') {
                 data.append(key, formData[key]);
             }
         });
-
         data.append('itemNo', itemCount ? itemCount + 1 : 1);
-
-        formData.itemImages.forEach(file => {
+        formData.itemImages.forEach((file) => {
             data.append('itemImages', file);
         });
 
+        /**submitting form */
         try {
+            setLoadingValue(true);
             const response = await commonaxios.post('/items/createItem', data, {
                 headers: {
-                    'Content-Type': 'multipart/form-data', 
+                    'Content-Type': 'multipart/form-data',
                 },
             });
 
-            if(response.data.success){
+            if (response.data.success) {
+                setLoadingValue(false);
                 console.log('Success:', response.data);
-                formData.itemImages=[]
-                alert('item added succes full')
-                navigate('/')
-
+                formData.itemImages = [];
+                alert('Item added successfully');
+                navigate('/');
             }
-
         } catch (error) {
             console.error('Error uploading files:', error);
+            setLoadingValue(false);
         }
-
     };
 
 
-    /**useeffect */
-    useEffect(()=>{
-        const fetchData = async()=>{
-            const data = await commonaxios.get('/supplier/getsuppliers')
-            if(data){  
-                setSuppliers(data.data.data) 
+    /**useEffect */
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await commonaxios.get('/supplier/getsuppliers');
+            if (data) {
+                setSuppliers(data.data.data);
             }
-        }
+        };
 
-        fetchData()
-        getItemCount()
-        
-    },[])
+        fetchData();
+        getItemCount();
+    }, []);
 
-
-
-    const getItemCount=async()=>{
-        try{
-            const res = await commonaxios.get('/items/totalcount')
-            setItemCount(res.data.count)
-        }
-        catch(err){
+    /**fetch the total count */
+    const getItemCount = async () => {
+        try {
+            const res = await commonaxios.get('/items/totalcount');
+            setItemCount(res.data.count);
+        } catch (err) {
             console.log(err);
-            
         }
-    
-  }
+    };
 
     return (
-        <>
-
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md space-y-4 sm:max-w-lg md:max-w-xl lg:max-w-2xl my-10">
-           <div className="flex justify-between items-center">
-            <h1>item No: {itemCount?itemCount+1001:1}</h1>
-            <h2 className="text-2xl font-bold text-center">Add Item</h2>
-           </div>
+        <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md space-y-4 my-10">
+            <div className="flex justify-between items-center">
+                <h1 className="text-gray-700">Item No: {itemCount ? itemCount + 1001 : 1}</h1>
+                <h2 className="text-2xl font-bold text-center text-blue-600">Add Item</h2>
+            </div>
 
             <div>
                 <label htmlFor="itemName" className="block text-sm font-medium text-gray-700">Item Name</label>
@@ -247,14 +239,11 @@ const ItemForm = ()=>{
                 </select>
             </div>
 
-            <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
                 Submit
             </button>
         </form>
-        </>
-        
     );
-}
+};
 
-
-export default ItemForm
+export default ItemForm;

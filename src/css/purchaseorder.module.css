@@ -1,0 +1,114 @@
+.purchase-order-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #a72e2e; 
+    border-radius: 8px; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #fff; 
+    font-size: 1.5em; 
+    margin-bottom: 10px;
+}
+
+label {
+    display: flex;
+    flex-direction: column; 
+    margin-bottom: 15px;
+    color: #f3f3f3; 
+    font-weight: 500; 
+}
+
+label input,
+label select {
+    margin-top: 5px; 
+    padding: 8px; 
+    font-size: 1em; 
+    border: 1px solid #ddd;
+    border-radius: 4px; 
+    color: black; 
+    background-color: #f3f3f3; /* Light background for read-only fields */
+}
+
+label select {
+    background-color: white; /* Ensure select has white background */
+    color: black; /* Ensure black text color */
+}
+
+/* Specific styling for select options */
+option {
+    background-color: white; /* White background for options */
+    color: black; /* Black text color */
+}
+
+input[readonly],
+select[readonly] {
+    background-color: #f3f3f3; /* Light background for read-only fields */
+}
+
+.item-row {
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px; 
+    padding: 15px; 
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fff; 
+    margin-bottom: 20px; 
+}
+
+button {
+    display: inline-block;
+    padding: 10px 20px; 
+    font-size: 1em;
+    color: #fff; 
+    background-color: #007bff;
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+    margin-top: 15px; 
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.order-summary {
+    margin-top: 20px; 
+}
+
+.order-summary label {
+    display: block; 
+    font-weight: bold; 
+    color: #333; 
+}
+
+.one {
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    padding: 10px;
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    background-color: #fff; 
+    max-height: 500px; 
+    overflow-y: auto; 
+}
+
+@media (max-width: 700px) {
+    .purchase-order-form {
+        max-width: 90% !important;
+    }
+
+    .one {
+        flex-direction: column; 
+        align-items: center; 
+        padding-bottom: 20px; 
+        padding-top: 20px; 
+    }
+}
